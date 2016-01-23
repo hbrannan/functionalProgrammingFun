@@ -23,24 +23,27 @@ function findMin(array){
 	if(array.length === 1){
 		return array[0];
 	} else {
-		return findMin(array) <= findMin(array.slice(1)) ? findMin(array) : findMin(array.slice(1));
+		var min;
+		array[0] <= array[1] ? min = array[0] : min = array[1];
+		return findMin([].concat(min).concat(array.slice(2)));
 	}
 }
 
  ///3. Write a recursive function that computes and returns the sum of all elements in an array, where the array and its size are given as parameters.
  ///return the sum of all elements in a[]
  ///int findsum(int a[], int n)
+ //PLAN
+ //associated result is a single composite sum
+ //base case is reaching the end/ beginning of the array
+ //move towards it by poppping
+ //remember to add;
 
-function sumArr (array){
-    var arr = array.slice();
-
-	if (arr.length === 1){
+function sumArr (arr){
+	if(arr.length === 1){
 		return arr[0];
+	} else {
+		return arr[arr.length-1] + sumArr(arr.slice(0, arr.length-1));
 	}
-
-	  arr[arr.length-2] += arr[arr.length -1];
-	  arr.pop();
-	  return sumArr(arr);
 }
 
  ///4,Write a recursive function that determines whether an array is a palindrome, where the array and its size are given as parameters.
