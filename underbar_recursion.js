@@ -4,33 +4,27 @@
  //return the sum 1+ 2+ 3+ ...+ n
  //int sum(int n)
 
-function sumEm (n){
-	if (n === 1){
+function sum (n){
+	if(n === 1){
 		return 1;
+	} else {
+		return n + sum(n-1);
 	}
-	return n + sumEm(n-1);
 }
-
-
 
  ///2. Write a recursive function that finds and returns the minimum element in an array, where the array and its size are given as parameters.
  ///return the minimum element in a[]
  ///int findmin(int a[], int n)
-  /// BY SIZE, DO THEY MEAN LENGTH?? 
-  //this is yielding undefined. 
+ //PLAN
+ //associated result is a single el value, which has to be compared to a previous value. 
+ //always examine array[0], slicing each time
+ //
 function findMin(array){
-	var arr = array.slice();
-    var currentMin = arr[0];
-    
-    if(arr.length === 1){
-    	return currentMin;
-    }
-
-    arr[arr.length -1] < arr[arr.length-2] ? currentMin = arr[arr.length -1] : currentMin = arr[arr.length -2];
-
-    arr[arr.length -2] = currentMin;
-    arr.pop();
-    return findMin(arr);
+	if(array.length === 1){
+		return array[0];
+	} else {
+		return findMin(array) <= findMin(array.slice(1)) ? findMin(array) : findMin(array.slice(1));
+	}
 }
 
  ///3. Write a recursive function that computes and returns the sum of all elements in an array, where the array and its size are given as parameters.
@@ -105,30 +99,39 @@ function binarySearch (array, size, target){
 	// remember, you need to modify the acutal array each time. 
 	//Find the middle (Math.floor/ ceiling) of arr
 	var checkIndex = Math.floor((size -1) / 2);
+	console.log()
 	var searchArr;
 
 	//if middle === target, return_____? T/ F? The index? (Index will be hard if in 2nd half)
 	if(array[checkIndex] === target){
 		return true; //If you get this, step it up to write it to return an index. 
-	}else if(size = 1 && array[checkIndex] !== target){
+	}else if(size === 1 && array[checkIndex] !== target){
 		return false;
 	} else if(array[checkIndex] > target){
 		searchArray = array.slice(checkIndex); // give only begin, so will go through end.
-		console.log(searchArray);
+		console.log(searchArray + "," + checkIndex);
 	} else {
 		searchArray = array.slice(0, checkIndex);
 		console.log(searchArray);
 	}
 
+	var searchLength = searchArray.length;
 	//if target > middle, keep 2nd half. 
 	//when you keep the 2nd half, you need to add (length?) to a tracker 'index' variable to keep the index No. intact. 
 	//if target < middle, keep 1st half.
 	//Use slice/ splice to modify the array. 
 
-	return binarySearch(searchArr, searchArr.length, target);
+	return binarySearch(searchArr, searchLength, target);
 
 }
 
+//HOLY MOLEY, take a gander at this beaute!:
+isPalindrome = function(arr, size) {
+  return arr[0] != arr[size - 1] ? 0 :
+    size > 3 ? isPalindrome(arr.slice(1, -1), size - 2) :
+      (size == 1 || arr[0] == arr[size - 1]) ? 1 :
+        0
+}
 
 
  ////Re-write Underbar using recursion, whenever possible.
