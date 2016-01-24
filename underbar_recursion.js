@@ -82,26 +82,160 @@ function binarySearch (array, target){
 	} else if (array.length === 1){
 		return false;
 	} 
-	return target > array[midway] ? binarySearch(array.slice(midway + 1), target) : binarySearch(array.slice(0, midway), target);
+	return target > array[midway] ? binarySearch(array.slice(midway + 1), target) : binarySearch(array.slice(0, midway), target); //*
 }
 //******* REMEMBER to slice with an INDEX, not an element
 
 
+///CHALLENGE:
+////Re-write Underbar using recursion, whenever possible.
 
- ////Re-write Underbar using recursion, whenever possible.
 
-  // Call iterator(value, key, collection) for each element of collection.
-  // Accepts both arrays and objects.
-  //
-  // Note: _.each does not have a return value, but rather simply runs the
-  // iterator function over each item in the input collection.
+//FIRST
+//return an array of the first n elements. if n is undefined, return only last
+//associated result is either one el or an array of els
+//base case: n = 1
+//move towards base case by recursing w n-1 ea time
+function first(arr, n){
+	if(n === undefined || n <= 1){
+		return [arr[0]];
+	}
+	return [].concat(first(arr, n-1)).concat(arr[n-1]);
+}
+//like first, but for the final elements
+//associated result is either one el or an array of els
+//base case is n = 1
+//move towards base case by recursing w n-1 ea time
+function last(arr, n){
+	if(n === undefined || n <= 1){
+		return [arr[arr.length-1]];
+	}
+	return [].concat(arr.length-n).concat(last(arr, n-1));
+}
 
-function each (el, col, it, length) {
-	var i; 
-
-	if(i === col.length -1){
+//call a func on each el in a col
+//associated result -- is none. 
+//base case is col.length = 0
+//move towards it using recursion & slice
+//YOU JUST CAN'T SENSIBLY USE RECURSION FOR TRAD EACH BC 1) difficult access arr i w/o for loop 2) NEED for-in loop to access keys in obj
+function each (col, it) {
+	if (Array.isArray(col)){
+		it(col[0]);
+	} else {
 
 	}
-
-	//recursion case
 }
+
+//build a recursive func that returns the index of where a target is 1st found, or if not found, returns -1
+//PLAN
+//associated result is single index or -1
+//base case is 1) when target found 2) when arr traversal complete
+
+function indexOf(arr, target){
+	var count = arr.length -1;
+
+	if(arr.length === 0){ // edge case: if input array has no els
+		return -1;
+	}
+
+	function recurse (arr, c){
+		if (arr[c] === target){
+			return c;
+		} else if (c === 0){
+			return -1;
+		}
+		return recurse(arr, c-1);
+	}
+	return recurse(arr, count);
+}
+
+//return all els of an arr that pass a truth test
+//PLAN
+//associated result is a composite arr
+//base case: array fully traversed
+
+function filter(col, truthTest){
+	var l = col.length;
+	var newCol = col.slice(0, l-1);
+	if(l === 1){
+		if(col[0] % 2 === 0){
+		    return col;
+	    } else {
+	    	return [];
+	    }
+	}
+	if(truthTest(col[l-1])){
+		 return [].concat(filter(newCol, truthTest)).concat(col[l-1]);
+	} else {
+		return filter(newCol, truthTest);
+	}
+}
+
+//PLAN
+//associated result is an arr composed of elements operated upon.. OR EMPTY
+//base case -- having traversed the whole array
+//how to get closer -- decrease col each time
+function reject(col, truthTest){
+  if(col.length === 0){
+  	if(truthTest(col[0])){
+  	    return col;
+  	} else {
+		return [];
+	}
+  }
+  var slice = col.slice(1);
+  if(!truthTest(col[0])){
+  	return [].concat(col[0]).concat(reject(slice, truthTest));
+  } else {
+	return reject(slice, truthTest);
+  }
+}
+
+//PLAN:
+//result is composite array (repeated operations)
+// base case: traversed whole array
+//challenge: you need to maintain an array for comparison
+function uniq (arr){ [1,2,2,3]
+	//subfunc to store result for comparison
+  function recurse (array, result){
+  	 //if result uninitialized, initialize 
+  	result = result || [];
+  	  //base case
+	if(array.length === 1){ 
+		if(indexOf(result, array[0]) === -1){ 
+			return result = array;
+		} else {
+			return result;
+		}
+	}
+	 //otherwise push in/ or don't and update call.
+	if(indexOf(result, array[0]) === -1){
+		result = [].concat(array[0]);         // huh?!! if I am storing result & also adding a recursive call to it, have to separate them
+		return result.concat(recurse(array.slice(1), result));
+	} else {
+		return recurse(array.slice(1), result);
+	}
+  }
+
+  return recurse(arr);
+}
+
+function map(){}
+
+function pluck(){}
+
+function reduce(){}
+
+function contains(){}
+
+function every(){}
+
+function some(){}
+
+function extend(){}
+
+function defaults(){}
+
+function shuffle(){}
+
+
