@@ -50,91 +50,42 @@ function sumArr (arr){
  ///returns 1 if a[] is a palindrome, 0 otherwise
  ///int ispalindrome(char a[], int n)
 
-  	/* functional AS A LOOP
-
- 	///var stepsLeft = Math.floor(size/2);
- 	///var x = 0;
-   /// var y = size -1;
-
- 	///for(var i = 0; i < stepsLeft; i++){
- 		if(arr[x] === arr[y]){
- 			x++;
- 			y++;
- 		} else {
- 			return 0;
- 		}
- 	///}
-   /// return 1;
-    */
-
- function isPalindrome(array, size){
- 	var arr = array.slice();
- 	size = arr.length;
- 	var x = 0; 
- 	var y = size -1;
-
- 	//base cases:
- 	// wholeEND - is palindrome, return 1;
- 	//even
- 	if(size === 2 && arr[x] === arr[y]){
- 		return 1;
- 	//odd
- 	} else if(size === 3 && arr[x] === arr[y]){
- 		return 1;
- 	// shortEND - isn't palindrome, return 0;
- 	} else if(arr[x] !== arr[y]){
- 		return 0
+//PLAN
+//result is t/f val after going through entire array
+//move closer to base by decreasing in size each time
+ function isPalindrome(array){
+ 	if(array.length <== 1){
+ 		return true;
+ 	} else {
+ 		return array[0] !== array[array.length-1] ? false : isPalindrome(array.slice(1, array.length-1));
  	}
-
-
- 	//recursive cases:
- 	//could check if even/ odd then count out from the middle(s) to the beginning/ end. 
- 	//or, could focus on the number of steps from the outside to the middlemost pair (regardless even/ odd).
- 	arr.pop();
- 	arr.shift();
- 	return isPalindrome(arr, size);
  }
 
-
- ///5.Write a recursive function that searches for a target in a sorted array using binay search, where the array, its size and the target are given as parameters.
-
-function binarySearch (array, size, target){
-	// remember, you need to modify the acutal array each time. 
-	//Find the middle (Math.floor/ ceiling) of arr
-	var checkIndex = Math.floor((size -1) / 2);
-	console.log()
-	var searchArr;
-
-	//if middle === target, return_____? T/ F? The index? (Index will be hard if in 2nd half)
-	if(array[checkIndex] === target){
-		return true; //If you get this, step it up to write it to return an index. 
-	}else if(size === 1 && array[checkIndex] !== target){
-		return false;
-	} else if(array[checkIndex] > target){
-		searchArray = array.slice(checkIndex); // give only begin, so will go through end.
-		console.log(searchArray + "," + checkIndex);
-	} else {
-		searchArray = array.slice(0, checkIndex);
-		console.log(searchArray);
-	}
-
-	var searchLength = searchArray.length;
-	//if target > middle, keep 2nd half. 
-	//when you keep the 2nd half, you need to add (length?) to a tracker 'index' variable to keep the index No. intact. 
-	//if target < middle, keep 1st half.
-	//Use slice/ splice to modify the array. 
-
-	return binarySearch(searchArr, searchLength, target);
-
-}
-
-//HOLY MOLEY, take a gander at this beaute!:
+// WHAT I FIRST THOUGHT: HOLY MOLEY, take a gander at this beaute! (someone else's code)
+// WHAT I NOW THINK: MEH. I did better.
 isPalindrome = function(arr, size) {
   return arr[0] != arr[size - 1] ? 0 :
     size > 3 ? isPalindrome(arr.slice(1, -1), size - 2) :
       (size == 1 || arr[0] == arr[size - 1]) ? 1 :
         0
 }
+ ///5.Write a recursive function that searches for a target in a sorted array using binay search, where the array, its size and the target are given as parameters.
+//PLAN
+//associated result is t/f 
+//base case: 1) target matched 2) array traversed
+//move closer to base by shortening array
+function binarySearch (array, target){
+	var midway = Math.floor(array.length/2);
+	  //BASE CASE(S)
+	if(array[midway] === target){
+		return true;
+	} else if (array.length === 1){
+		return false;
+	} 
+	return target > array[midway] ? binarySearch(array.slice(midway + 1), target) : binarySearch(array.slice(0, midway), target);
+}
+//******* REMEMBER to slice with an INDEX, not an element
+
 
 
  ////Re-write Underbar using recursion, whenever possible.
