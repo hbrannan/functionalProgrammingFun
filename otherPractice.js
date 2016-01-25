@@ -317,9 +317,22 @@ var reverseString = function (str){
 //associated result is an array of composite calculations
 //to build it from an upper bracket starting place, base case will be n=0 & k = 0;
 var pascalsTriange = function (n, k){
-	var el = (factorial(n) / ((factorial(n-k) * factorial(n)));
+	var resetK = k;
+	var el = (factorial(n) / (factorial(n-k) * factorial(n)));
+	var result = [];
+
+      //base case
 	if(n === 0 && k === 0){
 		return [el];
 	}
-	return [].concat(pascalsTriange(n-1, k-1)).concat(el);
-};
+	  //iterate through all k's in each row 
+	while(k >= 0){
+		k--;
+		result.concat(factorial(n) / (factorial(n-k) * factorial(n)));
+	}
+	  //then iterate through all n's, resetting k
+	k=resetK;
+	return result.concat(pascalsTriange(n-1, k-1)).concat(el);
+	//return result;  /// you are not pushing in anything by the time you return a result. 
+	
+};  /// current return: [1,1,1,1]
