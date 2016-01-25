@@ -138,17 +138,26 @@ var deepEquals = function(a, b){
 //base case is the BIG array (of objs) is traversed.
 //OR base case: all nests are found.
 var stringifyJSON = function(obj){
+	  //array case
 	if (Array.isArray(obj)){
-		_.each(col, function(el, i, col){
-			if(i !== col.length-1){
-				return stringifyJSON(obj[el]) + ',';
+		var result = '';
+		for(var i = 0; i < obj.length; i++){
+			if(i !== obj.length-1){
+				result += stringifyJSON(obj[i]) + ',';
 			} else {
-				return stringifyJSON(obj[el]); 
+				result += stringifyJSON(obj[i]); 
 			}
+		}
+		return '[' + result + ']';
 
-		});
-	} else {
-		return '[' + el + ']';
+	} else if (obj){
+		var result = [];
+		for(var key in obj){
+			if(obj[key] !== undefined || typeof obj[key] !== 'function' ){
+			  result.push(stringifyJSON(key) + ':' + stringifyJSON(obj[key]));
+			}
+		}
+		return '{' + result.join(',') + '}';
 	}
 	if(typeof obj === 'string'){
 		return '"' + obj + '"';
@@ -156,12 +165,31 @@ var stringifyJSON = function(obj){
 	return '' + obj;
 };
 
+//PLAN
+//associated result is an array of elements that match a truth test
+//base case: searched classNames of all nodes and subnodes
+//get closer: diving deeper into subnodes
+//operation should ALWAYS be performed before a dive
 var getElementsByClassName = function(className){
-	//start at document.body
-	//see if className matches
-	//if so, add to a list
-	//if no, 
 
+	function recurse (node){
+		var classList = node.classList;
+		for(var i = 0; i < node.classList.length; i++){
+		    if(classList[i] === className){
+			    //add node to the list, but don't return
+			    return [node];
+		    }
+	    }
+		if(node.hasChildNodes()){
+			for(var i = 0; i < node.children.legnth; i++){
+				 var result = recurse(node.children[i]);
+				 return [].concat(result);
+			}
+		}
+		return result;
+	}
+
+	return recurse(document.body);
 };
 
 //6! = 6x5x4x3x2x1x1
@@ -177,6 +205,7 @@ var factorial = function(number){
 //
 var gcd = function(a, b, factor){
 	factor = factor || 1;
+	 //start with the largest possible divisor for a (the pair to 1)
     divisor =  (a / factor);
     if((a % divisor === 0 ) && (b % divisor === 0)){
     	return divisor;
@@ -188,9 +217,21 @@ var gcd = function(a, b, factor){
 var gcdTurbo1 = function(a,b){ //EUCLID's THEORUM
  //
 };
+//PLAN
+//associated result is a single number (like a min/max)
+//must run 1-multiple operations to find it
+//base case: a: located b: reach 1 (also 'located')
+//decrease factor each time.
+var gcdTurbo2 = function(a,b, factor){ //
+ //treat 1 as a factor
+ factor = factor || 1;
+ var divisor = a / factor;
 
-var gcdTurbo2 = function(a,b){ //
- //
+ if(a % divisor === 0 && b%divisor ==0){
+ 	return factor;
+ }
+ factor ++;
+ return gcdTurbo2(a, b, factor)
 };
 
 //Challenge: write recursive program to get integers BETWEEN range
