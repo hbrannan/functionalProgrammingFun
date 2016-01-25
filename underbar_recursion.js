@@ -257,19 +257,25 @@ function reduce(col, it, acc){
 //base case: found OR col traversed
 //challenge: arr OR obj
 function contains(col, target){
-	if(Array.isArray(col)){
-		return console.log('77777');
-	} else {
-		for(var key in obj){
-			if(obj[key] === target){ // if it matches
-				return true;
-			} else if(!col.hasOwnProperty(key)){ //if there are no more keys in an obj (there is no such thing as key in obj)
-				return false;
+	var copy; //how would you copy an object? 
+
+	function recurse (col, memo){
+		if(Array.isArray(col)){
+			return console.log('77777');
+		} else {
+			for(var key in obj){
+				if(obj[key] === target){ 
+					return true;
+				} else if(Object.getOwnPropertyNames(obj).length === 0){ //
+					return false; //NOT REACHING FALSE. How to see if no more enumerable props in obj
+				}
+				delete obj[key];
+				console.log(col);
+				return contains(col, target, false); //this will modify orig. obj. protect with a copy & sub recursion
 			}
-			delete obj[key]; ///how does delete operator work? 
-			return contains(col, target); //this will modify orig. obj. protect with a copy & sub recursion
 		}
 	}
+	return recurse(col, false);
 }
 
 function every(){}
