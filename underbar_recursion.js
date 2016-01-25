@@ -307,7 +307,7 @@ function extend(){}
  //Like extend, but do not overwrite existing properties
 function defaults(){}
 
-//shuffle an array (extensively) in place by trading a steadily descending index for a random index
+//shuffle an array (extensively) by trading a steadily descending index for a random index
 //PLAN
 //associated result: array of composite operations
 //base case: having completely traversed the array
@@ -315,16 +315,24 @@ function defaults(){}
 //subfunc recurses. outer func takes length which will use as count down.
 function shuffle(arr){
 	var count = arr.length;
+	var copy = arr.slice();
 
-	function recurse(i){
+	function recurse(arr, i){
 		//base case
 		if(i === 0){
-			return [];
+			return arr;
 		}
-		//operate
+		//set up
+		var randomIndex = Math.floor( Math.random()* i);
+		var randomVal = arr[randomIndex];
+		var iVal = arr[i];
+		//exchange
+		copy[randomIndex] = iVal;
+		copy[i] = randomVal;
 		//recurse
-		return [].concat(/*newArray*/).concat(/*nextCall*/);
+		return recurse(copy, i-1);
 	}
+
 	return recurse(count);
 }
 
