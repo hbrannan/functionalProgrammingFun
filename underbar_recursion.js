@@ -257,7 +257,7 @@ function reduce(col, it, acc){
 //base case: found OR col traversed
 //challenge: arr OR obj
 function contains(col, target){
-	var copy; //how would you copy an object? 
+	//var copy; //how would you copy an object? 
 
 	function recurse (col, memo){
 		if(Array.isArray(col)){
@@ -272,6 +272,9 @@ function contains(col, target){
 				delete obj[key];
 				console.log(col);
 				return contains(col, target, false); //this will modify orig. obj. protect with a copy & sub recursion
+			}
+			if(memo === false){
+				return false;
 			}
 		}
 	}
