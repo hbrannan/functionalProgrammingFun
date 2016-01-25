@@ -314,7 +314,7 @@ function defaults(){}
 //challenge: you do not want to alter the array's length or how it corresponds to indeces(ish)
 //subfunc recurses. outer func takes length which will use as count down.
 function shuffle(arr){
-	var count = arr.length;
+	var count = arr.length -1;
 	var copy = arr.slice();
 
 	function recurse(arr, i){
@@ -323,7 +323,7 @@ function shuffle(arr){
 			return arr;
 		}
 		//set up
-		var randomIndex = Math.floor( Math.random()* i);
+		var randomIndex = Math.round(Math.random()* i);
 		var randomVal = arr[randomIndex];
 		var iVal = arr[i];
 		//exchange
@@ -333,7 +333,7 @@ function shuffle(arr){
 		return recurse(copy, i-1);
 	}
 
-	return recurse(count);
+	return recurse(copy, count);
 }
 
 
