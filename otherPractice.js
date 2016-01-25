@@ -17,31 +17,34 @@
 var allCombos = function (arr){
   //DEFINITIONS, VARS
     var length = arr.length;
-	var count = length; //  track numElements for each array grouping (update each call)
+	var count = length; //  track numElements to go into each array grouping (update each call)
 
 	 //define a factorial function 
-	var factorial = function(n){
-		if (n === 0){
+	var factorial = function(number){
+		if (number === 0){
 			return 1;
 		} else {
-			return n * factorial(n-1);
+			return number * factorial(number-1);
 		}
 	};
-	  //define n choose k 
-	var choose = function(l, k){
-		return (factorial(l) / (factorial(l-k) * factorial(l)));
+	  //define n choose k : n is relatable to the number of the row or set of arrays. (Pascals Triangle)
+	    //the result of this func will give you the number of how many possible arrays
+	  // k is relatable to the index within the row
+	var choose = function(n, k){
+		return (factorial(n) / (factorial(n-k) * factorial(n)));
 	};
 
 
 	  //BASE CASE
-    if (count === length){ 
+    if (count === 0){ 
     	return [[]];
 
     } else {
     	function recurse (){
-    		var subCount = choose(length, count);
+    		var subCount = choose(length, count); // this will tell you the num. of arrays in the row.
     		var nextCombo =  new Array (count); 
     		//fill it in
+    		//if
     		return recurse((subCount -1)).push(nextCombo);
     	}
     }
@@ -149,11 +152,11 @@ var gcd = function(a, b, factor){
     return gcd(a, b, factor);
 };
 
-var gcdTurbo1 = function(a,b){
+var gcdTurbo1 = function(a,b){ //EUCLID's THEORUM
  //
 };
 
-var gcdTurbo2 = function(a,b){
+var gcdTurbo2 = function(a,b){ //
  //
 };
 
@@ -310,3 +313,13 @@ var reverseString = function (str){
 };
 
 //Challenge: Pascal's triangle
+//PLAN
+//associated result is an array of composite calculations
+//to build it from an upper bracket starting place, base case will be n=0 & k = 0;
+var pascalsTriange = function (n, k){
+	var el = (factorial(n) / ((factorial(n-k) * factorial(n)));
+	if(n === 0 && k === 0){
+		return [el];
+	}
+	return [].concat(pascalsTriange(n-1, k-1)).concat(el);
+};
