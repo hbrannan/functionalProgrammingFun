@@ -258,21 +258,24 @@ function reduce(col, it, acc){
 //challenge: arr OR obj
 function contains(col, target){
 	//var copy; //how would you copy an object? 
-
 	function recurse (col, memo){
 		if(Array.isArray(col)){
-			return console.log('77777');
+			if(col[0] === target){
+				return true;
+			} else if (col.length === 0){
+				return false;
+			} else {
+				return recurse(col.slice(1));
+			}
 		} else {
 			for(var key in obj){
 				if(obj[key] === target){ 
 					return true;
-				} else if(Object.getOwnPropertyNames(obj).length === 0){ //
-					return false; //NOT REACHING FALSE. How to see if no more enumerable props in obj
 				}
 				delete obj[key];
-				console.log(col);
-				return contains(col, target, false); //this will modify orig. obj. protect with a copy & sub recursion
+				return contains(col, target, false); //this will modify orig. obj. protect with a copy?
 			}
+			  //after loop runs the whole way thru obj, if memo still false, IS false
 			if(memo === false){
 				return false;
 			}
