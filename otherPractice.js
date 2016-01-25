@@ -86,9 +86,19 @@ var factorial = function (n){
  * etc...
  *
  */
+//PLAN
+//associated result is a composite calculation
+  //calc: n-1+n-2
+//base case: reach the first two. **the numbers, NOT the array
 
 var fib = function(index){
+	if(index === 0){
+		return 0;
+	} else if(index === 1){
+		return 1;
+	}
 
+	else return fib(index-2) + fib(index-1);
 };
 
 /**
@@ -106,16 +116,39 @@ var fib = function(index){
   */
 //Challenge: write a recursive func that checks if one array deeply equals another. all els, including
 // nested els, should be the same. 
+//associate result: t/f
+//base case: not nested
+//each step, compare element to element
 var deepEquals = function(a, b){
-
+	for(var i = 0, i < a.length; i++){
+		 //base case (A.- failed match)
+		if(typeof a[i] !== 'object'){
+			if(a[i] !== b[i]){
+				return false;
+			}
+		} else {
+			return deepEquals(a[i], b[i]);
+		}
+	}
+	return true;
 };
 
-
+//PLAN
+//associated result is a composite string, add to it each time.
+//base case is the BIG array (of objs) is traversed.
+//OR base case: all nests are found.
 var stringifyJSON = function(obj){
 	if (Array.isArray(obj)){
-		_.each(obj, function(val){
+		_.each(col, function(el, i, col){
+			if(i !== col.length-1){
+				return stringifyJSON(obj[el]) + ',';
+			} else {
+				return stringifyJSON(obj[el]); 
+			}
 
 		});
+	} else {
+		return '[' + el + ']';
 	}
 	if(typeof obj === 'string'){
 		return '"' + obj + '"';
@@ -314,25 +347,32 @@ var reverseString = function (str){
 
 //Challenge: Pascal's triangle
 //PLAN
-//associated result is an array of composite calculations
+//associated result is an array OF ARRAYS of composite calculations  -- ea new array is ALL of k
 //to build it from an upper bracket starting place, base case will be n=0 & k = 0;
-var pascalsTriange = function (n, k){
-	var resetK = k;
-	var el = (factorial(n) / (factorial(n-k) * factorial(n)));
-	var result = [];
+//challenge: manipulate k more often than you manipulate n
+var pascalsTriangle = function (n, k){
+	 //setup: n choose k to determine next el value;
+	var el = function (){
+		return ( factorial(n) / ( factorial(n-k) * factorial(k) ));
+	};
 
-      //base case
-	if(n === 0 && k === 0){
-		return [el];
+      //true base case
+	if(n === 0 && k === 0){    
+		return [el(n, k)];
 	}
-	  //iterate through all k's in each row 
-	while(k >= 0){
-		k--;
-		result.concat(factorial(n) / (factorial(n-k) * factorial(n)));
+
+	function recurseK (n, k){
+		if(k === 0){
+			return [el(n,k)]; 
+		}
+		//val? 
+		//concat?
+		return recurseK(n, k-1);
 	}
-	  //then iterate through all n's, resetting k
-	k=resetK;
-	return result.concat(pascalsTriange(n-1, k-1)).concat(el);
-	//return result;  /// you are not pushing in anything by the time you return a result. 
+
+
+
+	  // call on 1 less n and 1 less k, adding the 
+	return [].concat(pascalsTriangle(n-1, k-1)); 
 	
-};  /// current return: [1,1,1,1]
+};  /// [1]
