@@ -283,8 +283,18 @@ function contains(col, target){
 	}
 	return recurse(col, false);
 }
-
-function every(){}
+//if a truth test called on all items each and all times returns true, return true
+//associated result: a single true or false
+//move through array
+function every(col, truthTest){
+	if(!truthTest(col[0])){
+		return false;
+	} else if (col.length === 0){
+		return true;
+	} else {
+		return every(col.slice(1), truthTest);
+	}
+}
 
 function some(){}
 
