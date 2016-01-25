@@ -296,12 +296,36 @@ function every(col, truthTest){
 	}
 }
 
-function some(){}
-
+function some(col, truthTest){}
+  // Extend a given object with all the properties of the passed in
+  // object(s).
+  //PLAN
+  //associated result is composite object
+  //
 function extend(){}
 
+ //Like extend, but do not overwrite existing properties
 function defaults(){}
 
-function shuffle(){}
+//shuffle an array (extensively) in place by trading a steadily descending index for a random index
+//PLAN
+//associated result: array of composite operations
+//base case: having completely traversed the array
+//challenge: you do not want to alter the array's length or how it corresponds to indeces(ish)
+//subfunc recurses. outer func takes length which will use as count down.
+function shuffle(arr){
+	var count = arr.length;
+
+	function recurse(i){
+		//base case
+		if(i === 0){
+			return [];
+		}
+		//operate
+		//recurse
+		return [].concat(/*newArray*/).concat(/*nextCall*/);
+	}
+	return recurse(count);
+}
 
 
