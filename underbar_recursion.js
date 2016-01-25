@@ -194,7 +194,7 @@ function reject(col, truthTest){
 //PLAN:
 //result is composite array (repeated operations)
 // base case: traversed whole array
-//challenge: you need to maintain an array for comparison
+//challenge: you need to maintain an array for comparison ****!!****
 function uniq (arr){ [1,2,2,3]
 	//subfunc to store result for comparison
   function recurse (array, result){
@@ -208,25 +208,69 @@ function uniq (arr){ [1,2,2,3]
 			return result;
 		}
 	}
-	 //otherwise push in/ or don't and update call.
 	if(indexOf(result, array[0]) === -1){
-		result = [].concat(array[0]);         // huh?!! if I am storing result & also adding a recursive call to it, have to separate them
-		return result.concat(recurse(array.slice(1), result));
+		result = [].concat(array[0]);         // huh?!! if I am storing result & also adding a recursive call 
+		return result.concat(recurse(array.slice(1), result));  //  **!!** to it, HAVE TO separate them
 	} else {
 		return recurse(array.slice(1), result);
 	}
   }
-
   return recurse(arr);
 }
+//PLAN
+//associated result is a composite array
+function map(col, it){
+	if(col.length === 0){
+		return col;
+	}
+	return [].concat(it(col[0])).concat(map(col.slice(1), it));
+}
+  // Takes an array of objects and returns an array of the values of
+  // a certain property in it. E.g. take an array of people and return
+  // an array of just their ages
+//PLAN
+//associated result is an array of object values
+//base case -- array is completely traversed
+function pluck(arrOfObjs, key){
+	if(arrOfObjs.length === 0){
+		return arrOfObjs;
+	}
+	return [].concat(arrOfObjs[0][key]).concat(pluck(arrOfObjs.slice(1), key));
+}
 
-function map(){}
-
-function pluck(){}
-
-function reduce(){}
-
-function contains(){}
+//PLAN
+//associated result is a single number with acc results
+//when array is traversed
+function reduce(col, it, acc){
+	if(!acc){
+		return acc = col[0];
+	}
+	if(col.length === 0){
+		return acc; 
+	}
+	acc = (it(acc, col[0]));
+	return reduce(col.slice(1), it, acc);
+}
+//Determine if given array/obj contains a val
+//PLAN
+//associated result is single: t/f
+//base case: found OR col traversed
+//challenge: arr OR obj
+function contains(col, target){
+	if(Array.isArray(col)){
+		return console.log('77777');
+	} else {
+		for(var key in obj){
+			if(obj[key] === target){ // if it matches
+				return true;
+			} else if(!col.hasOwnProperty(key)){ //if there are no more keys in an obj (there is no such thing as key in obj)
+				return false;
+			}
+			delete obj[key]; ///how does delete operator work? 
+			return contains(col, target); //this will modify orig. obj. protect with a copy & sub recursion
+		}
+	}
+}
 
 function every(){}
 
