@@ -289,7 +289,7 @@ function contains(col, target){
 function every(col, truthTest){
 	if(!truthTest(col[0])){
 		return false;
-	} else if (col.length === 0){
+	} else if (col.length === 1){
 		return true;
 	} else {
 		return every(col.slice(1), truthTest);
