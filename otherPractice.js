@@ -213,9 +213,12 @@ var gcd = function(a, b, factor){
     factor ++;
     return gcd(a, b, factor);
 };
-
+//
 var gcdTurbo1 = function(a,b){ //EUCLID's THEORUM
- //
+ if(a % b === 0){
+ 	return b;
+ }
+ return gcdTurbo1(b, a%b)
 };
 //PLAN
 //associated result is a single number (like a min/max)
